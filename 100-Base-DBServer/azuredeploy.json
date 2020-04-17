@@ -14,7 +14,7 @@
             "type": "string"
         },
         "virtualNetworkId": {
-            "type": "string",
+            "type": "string"
         },
         "virtualMachineName": {
             "type": "string"
@@ -43,18 +43,18 @@
             "defaultValue": "Standard_E2s_v3"
         },
         "adminUsername": {
-            "type": "string",
+            "type": "string"
         },
         "adminPassword": {
             "type": "secureString"
-        },
+        }
     },
     "variables": {
         "vnetId": "[parameters('virtualNetworkId')]",
         "subnetRef": "[concat(variables('vnetId'), '/subnets/', parameters('subnetName'))]",
         "networkInterfaceName": "[toLower( concat( parameters('virtualMachineName'), uniqueString(resourceGroup().id)))]",
         "diagnosticsStorageAccountName": "[toLower(concat (parameters('resourceGroupName'), 'diag1'))]",
-        "diagnosticsStorageAccountId": "",
+        "diagnosticsStorageAccountid": "[concat(resourceGroup().id,'/providers/','Microsoft.Storage/storageAccounts/', variables('diagnosticsStorageAccountName'))]",
         "diagnosticsExtensionName": "Microsoft.Insights.VMDiagnosticsSettings"
     },
     "resources": [
@@ -78,7 +78,7 @@
                         }
                     }
                 ]
-            },
+            }
         },
         {
             "name": "[parameters('dataDiskResources')[copyIndex()].name]",
@@ -446,7 +446,7 @@
                 },
                 "protectedSettings": {
                     "storageAccountName": "[variables('diagnosticsStorageAccountName')]",
-                    "storageAccountKey": "[listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('diagnosticsStorageAccountName')), providers('Microsoft.Storage', 'storageAccounts').apiVersions[0]).keys[0].value]",
+                    "StorageAccountKey": "[first(listKeys(variables('diagnosticsStorageAccountId'),'2019-06-01').keys).value]",
                     "storageAccountEndPoint": "https://core.windows.net/"
                 }
             },

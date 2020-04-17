@@ -11,6 +11,9 @@
         "subnetName": {
             "value": "SUBNETNAME"
         },
+        "virtualNetworkId": {
+            "value": "VIRTUALNETWORKID"
+        },
         "dataDisks": {
             "value": [
                 {
